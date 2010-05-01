@@ -12,7 +12,7 @@
 
 #include "can.h"
 
-#define	MAX_TX_MOBS 15	/* 1 */
+#define	MAX_TX_MOBS 14	/* 1 */
 
 //
 //	1.	We have 15 message objects on the can controller. So we can schedule
@@ -46,6 +46,23 @@ tx_callback
 (
 	uint8_t mob_index	/* message object */
 );
+
+
+//
+//	Handle an incoming message on the bus
+//
+
+void
+rx_callback
+(
+	uint8_t mob_index,
+	uint32_t id,
+	packet_type_t type
+);
+
+void
+start_receiving (void);
+
 
 //
 //	Broadcast a packet over the CAN bus. The packet will be transmitted as soon

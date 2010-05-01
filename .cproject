@@ -36,6 +36,7 @@
 <listOptionValue builtIn="false" value="/usr/local/CrossPack-AVR/avr/include"/>
 <listOptionValue builtIn="false" value="&quot;${workspace_loc:/libcan}&quot;"/>
 </option>
+<option id="de.innot.avreclipse.compiler.option.std.1815330947" superClass="de.innot.avreclipse.compiler.option.std" value="de.innot.avreclipse.compiler.option.std.gnu99" valueType="enumerated"/>
 <inputType id="de.innot.avreclipse.compiler.winavr.input.2069554697" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
 </tool>
 <tool id="de.innot.avreclipse.tool.cppcompiler.app.debug.1365223393" name="AVR C++ Compiler" superClass="de.innot.avreclipse.tool.cppcompiler.app.debug">

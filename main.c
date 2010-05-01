@@ -20,7 +20,7 @@ static can_packet_t		tx_packet_buf[TX_BUF_LEN];
 static uint8_t			tx_bcast_index = 0;
 static uint8_t 			num_tx_packets = 0;
 
-static volatile uint32_t 	clock = 0;
+volatile uint32_t 	clock = 0;
 
 //
 //	The counter ISR is just a simple time-keeper. All it does is increment
@@ -56,7 +56,7 @@ main (void)
 
 	uart_init ();
 	timer_init ();
-	can_init ();
+	can_init (can_baud_1000);
 
 	printf ("%c[2J%c[H", ASCII_ESC, ASCII_ESC);
 	printf ("CAN-Tester 1.0 (c) 2009-2010 UMSAE\n");
@@ -78,24 +78,34 @@ main (void)
 	printf ("\nPress any key to start broadcasting.");
 	fgetc (stdin);
 
+	start_receiving ();
+
 	sei ();
 
-	printf ("\n\nBroadcasting... ");
+	printf ("\n\nBroadcasting... \n");
 
 	for (;;)
 	{
 		if (tx_bcast_index < num_tx_packets && tx_packet_buf[tx_bcast_index].time <= clock)
 		{
+			print_packet (&tx_packet_buf[tx_bcast_index]);
 			broadcast_packet (&tx_packet_buf[tx_bcast_index++]);
 
-			printf ("%c%c[D", progress[p], ASCII_ESC); /* 1 */
-			p = (p+1) % 4;
+			//printf ("%c%c[D", progress[p], ASCII_ESC); /* 1 */
+			//p = (p+1) % 4;
 		}
 		else if (tx_bcast_index == num_tx_packets)
 			break;
 	}
 
 	printf ("done!\n");
+
+	for (;;)
+	{
+		rx_print ();
+	}
+
+	fgetc (stdin);
 	printf ("\n%d packets delivered in %ld ms.\nSystem halted.\n", tx_bcast_index, clock);
 
 	cli ();
